@@ -5,6 +5,7 @@
   "dependencies": {
     "moment": "^2.24.0",
     "react": "^16.8.6",
+    "react-clock": "^2.3.0",
     "react-dom": "^16.8.6",
     "react-flip-numbers": "^3.0.2",
     "react-scripts": "3.0.1",
