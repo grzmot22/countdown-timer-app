@@ -21,6 +21,7 @@ const useStyles = makeStyles({
 const App = () => {
 	const [ date, setDate ] = useState(new Date());
 	const [ selectedDate, handleDateChange ] = useState(new Date());
+	const [ targetDate, setTargetDate ] = useState();
 	const classes = useStyles();
 
 	useEffect(() => {
