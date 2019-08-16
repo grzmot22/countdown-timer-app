@@ -21,16 +21,69 @@ const useStyles = makeStyles({
 
 const App = () => {
   const [date, setDate] = useState(new Date());
-  const [selectedDate, handleDateChange] = useState(
-    new Date("Jan 5, 2021 15: 37: 25")
+  const [targetDate, handleDateChange] = useState(
+    new Date("Jan 5, 2020 15: 37: 25")
   );
-  // const [distance, setDistance] = useState(new Date().getDate("3033034034534"));
+
+  const [timeRemaining, setTimeRemaining] = useState(
+    Date.parse(targetDate) - Date.parse(date)
+  );
+
+  const [seconds, setSecounds] = useState(
+    Math.floor((timeRemaining / 1000) % 60)
+  );
+
+  const [minutes, setMinutes] = useState(
+    Math.floor((timeRemaining / 1000 / 60) % 60)
+  );
+
+  const [hours, setHours] = useState(
+    Math.floor((timeRemaining / (1000 * 60 * 60)) % 24)
+  );
+
+  const [days, setDays] = useState(
+    Math.floor(timeRemaining / (1000 * 60 * 60 * 24))
+  );
+
   const classes = useStyles();
 
+  // function useCountdown(date, options = {}) {
+  //   const { intervalTime = 1000, now = () => Date.now() } = options;
+  //   const [timeLeft, setTimeLeft] = useState(
+  //     () => new Date(date()) - new Date(now())
+  //   );
+
+  //   useEffect(() => {
+  //     const interval = setInterval(() => {
+  //       setTimeLeft(current => {
+  //         if (current <= 0) {
+  //           clearInterval(interval);
+
+  //           return 0;
+  //         }
+
+  //         return current - intervalTime;
+  //       });
+  //     }, intervalTime);
+
+  //     return () => clearInterval(interval);
+  //   }, [intervalTime]);
+
+  //   return timeLeft;
+  // }
+
+  // setTimeRemaining(Date.parse(targetDate) - Date.parse(new Date()));
   useEffect(() => {
-    setInterval(() => setDate(new Date()), 950);
-    // setDistance(new Date("Jan 5, 2021 15: 37: 25").toLocaleTimeString("pl"));
-  }, [selectedDate, date]);
+    setInterval(() => {
+      setDate(new Date());
+
+      setSecounds(Math.floor((timeRemaining / 1000) % 60));
+      setMinutes(Math.floor((timeRemaining / (1000 * 60 * 60)) % 24));
+      setHours(Math.floor((timeRemaining / (1000 * 60 * 60)) % 24));
+      setDays(Math.floor(timeRemaining / (1000 * 60 * 60 * 24)));
+      setTimeRemaining(Date.parse(targetDate) - Date.parse(new Date()));
+    }, 1000);
+  }, [targetDate, date, timeRemaining]);
 
   return (
     <Containter>
@@ -42,7 +95,17 @@ const App = () => {
           background="white"
           play
           perspective={1500}
-          numbers={date.toLocaleTimeString("pl").slice(0, 2)}
+          numbers={days.toString()}
+        />
+        <Separator>Days</Separator>
+        <FlipNumbers
+          height={150}
+          width={150}
+          color="red"
+          background="white"
+          play
+          perspective={1500}
+          numbers={hours.toString()}
         />
         <Separator>:</Separator>
         <FlipNumbers
@@ -52,7 +115,7 @@ const App = () => {
           background="white"
           play
           perspective={1500}
-          numbers={date.toLocaleTimeString("pl").slice(3, 5)}
+          numbers={minutes.toString()}
         />
         <Separator>:</Separator>
         <FlipNumbers
@@ -62,14 +125,14 @@ const App = () => {
           background="white"
           play
           perspective={1500}
-          numbers={date.toLocaleTimeString("pl").slice(6, 8)}
+          numbers={seconds.toString()}
         />
       </FlipContainer>
 
       <Clock value={date} size={250} />
       <DatePicker>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <DateTimePicker value={selectedDate} onChange={handleDateChange} />
+          <DateTimePicker value={targetDate} onChange={handleDateChange} />
         </MuiPickersUtilsProvider>
         <Button className={classes.root}>Hook</Button>
       </DatePicker>
