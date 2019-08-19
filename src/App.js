@@ -102,8 +102,8 @@ const App = () => {
         />
         <Separator>MINUTES</Separator>
         <FlipNumbers
-          height={150}
-          width={150}
+          height={100}
+          width={100}
           color="red"
           background="white"
           play
@@ -118,7 +118,6 @@ const App = () => {
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <DateTimePicker value={targetDate} onChange={handleDateChange} />
           </MuiPickersUtilsProvider>
-          <Button className={classes.root}>Hook</Button>
         </DatePicker>
       </FlipContainer>
     </Containter>
@@ -129,12 +128,14 @@ export default App;
 const Containter = styled.div`
   display: flex;
   flex-direction: column;
+  justify-items: center;
 `;
 const FlipContainer = styled.div`
   display: flex;
-  width: 800px;
+  width: 100%;
   height: 300px;
   align-items: center;
+  justify-content: center;
 `;
 const DatePickerContainer = styled.div`
   width: 400px;
