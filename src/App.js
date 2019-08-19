@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/styles";
 import Button from "@material-ui/core/Button";
 import DateFnsUtils from "@date-io/date-fns";
 import { MuiPickersUtilsProvider, DateTimePicker } from "@material-ui/pickers";
+import moment from "moment";
 
 const useStyles = makeStyles({
   root: {
@@ -18,6 +19,18 @@ const useStyles = makeStyles({
     padding: "0 30px"
   }
 });
+
+const NumberFlip = ({ number }) => (
+  <FlipNumbers
+    height={100}
+    width={100}
+    color="red"
+    background="white"
+    play
+    perspective={1500}
+    numbers={number.toString()}
+  />
+);
 
 const App = () => {
   const [date, setDate] = useState(new Date());
@@ -67,83 +80,54 @@ const App = () => {
 
     return () => clearInterval(interval);
   }, [intervalTime, timeRemaining, targetDate]);
-
+  console.log(timeRemaining);
   return (
     <Containter>
-      <FlipContainer>
-        <FlipNumbers
-          height={100}
-          width={100}
-          color="red"
-          background="white"
-          play
-          perspective={1500}
-          numbers={days.toString()}
-        />
+      <RowContainer>
+        <NumberFlip number={moment(timeRemaining).days()} />
         <Separator>DAYS</Separator>
-        <FlipNumbers
-          height={100}
-          width={100}
-          color="red"
-          background="white"
-          play
-          perspective={1500}
-          numbers={hours.toString()}
-        />
+        <NumberFlip number={moment(timeRemaining).hours()} />
         <Separator>HOURS</Separator>
-        <FlipNumbers
-          height={100}
-          width={100}
-          color="red"
-          background="white"
-          play
-          perspective={1500}
-          numbers={minutes.toString()}
-        />
+        <NumberFlip number={moment(timeRemaining).minutes()} />
         <Separator>MINUTES</Separator>
-        <FlipNumbers
-          height={100}
-          width={100}
-          color="red"
-          background="white"
-          play
-          perspective={1500}
-          numbers={seconds.toString()}
-        />
-        <Separator>SECOUNDS</Separator>
-      </FlipContainer>
-      <FlipContainer>
+        <NumberFlip number={moment(timeRemaining).seconds()} />
+        <Separator>SECONDS</Separator>
+      </RowContainer>
+      <RowContainer>
         <Clock value={date} size={250} />
         <DatePicker>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <DateTimePicker value={targetDate} onChange={handleDateChange} />
           </MuiPickersUtilsProvider>
         </DatePicker>
-      </FlipContainer>
+      </RowContainer>
     </Containter>
   );
 };
 
 export default App;
+
 const Containter = styled.div`
   display: flex;
   flex-direction: column;
   justify-items: center;
 `;
-const FlipContainer = styled.div`
+
+const RowContainer = styled.div`
   display: flex;
   width: 100%;
   height: 300px;
   align-items: center;
   justify-content: center;
 `;
+
 const DatePickerContainer = styled.div`
   width: 400px;
 `;
 
 const Separator = styled.div`
   display: flex;
-  font-size: 40px;
+  font-size: 50px;
 `;
 
 const DatePicker = styled(DatePickerContainer)`
