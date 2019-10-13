@@ -2,23 +2,23 @@ import React, { useState, useEffect } from "react";
 import FlipNumbers from "react-flip-numbers";
 import Clock from "react-clock";
 import styled from "styled-components";
-import { makeStyles } from "@material-ui/styles";
-import Button from "@material-ui/core/Button";
+// import { makeStyles } from "@material-ui/styles";
+// import Button from '@material-ui/core/Button';
 import DateFnsUtils from "@date-io/date-fns";
 import { MuiPickersUtilsProvider, DateTimePicker } from "@material-ui/pickers";
-import moment from "moment";
+// import moment from 'moment';
 
-const useStyles = makeStyles({
-  root: {
-    background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
-    border: 0,
-    borderRadius: 3,
-    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
-    color: "white",
-    height: 48,
-    padding: "0 30px"
-  }
-});
+// const useStyles = makeStyles({
+//   root: {
+//     background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
+//     border: 0,
+//     borderRadius: 3,
+//     boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+//     color: "white",
+//     height: 48,
+//     padding: "0 30px"
+//   }
+// });
 
 const NumberFlip = ({ number }) => (
   <FlipNumbers
@@ -35,7 +35,7 @@ const NumberFlip = ({ number }) => (
 const App = () => {
   const [date, setDate] = useState(new Date());
   const [targetDate, handleDateChange] = useState(
-    new Date("Aug 19, 2019 15: 37: 25")
+    new Date() + new Date().setMinutes(20)
   );
   const intervalTime = 1000;
   const now = () => Date.now();
@@ -60,7 +60,7 @@ const App = () => {
     Math.floor(timeRemaining / (1000 * 60 * 60 * 24))
   );
 
-  const classes = useStyles();
+  // const classes = useStyles();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -84,13 +84,13 @@ const App = () => {
   return (
     <Containter>
       <RowContainer>
-        <NumberFlip number={moment(timeRemaining).days()} />
+        <NumberFlip number={days.toString()} />
         <Separator>DAYS</Separator>
-        <NumberFlip number={moment(timeRemaining).hours()} />
+        <NumberFlip number={hours.toString()} />
         <Separator>HOURS</Separator>
-        <NumberFlip number={moment(timeRemaining).minutes()} />
+        <NumberFlip number={minutes.toString()} />
         <Separator>MINUTES</Separator>
-        <NumberFlip number={moment(timeRemaining).seconds()} />
+        <NumberFlip number={seconds.toString()} />
         <Separator>SECONDS</Separator>
       </RowContainer>
       <RowContainer>
