@@ -6,7 +6,7 @@ import styled from "styled-components";
 // import Button from '@material-ui/core/Button';
 import DateFnsUtils from "@date-io/date-fns";
 import { MuiPickersUtilsProvider, DateTimePicker } from "@material-ui/pickers";
-// import moment from 'moment';
+import moment from "moment";
 
 // const useStyles = makeStyles({
 //   root: {
@@ -35,7 +35,9 @@ const NumberFlip = ({ number }) => (
 const App = () => {
   const [date, setDate] = useState(new Date());
   const [targetDate, handleDateChange] = useState(
-    new Date() + new Date().setMinutes(20)
+    moment(moment())
+      .add(30, "m")
+      .toDate()
   );
   const intervalTime = 1000;
   const now = () => Date.now();
@@ -80,7 +82,6 @@ const App = () => {
 
     return () => clearInterval(interval);
   }, [intervalTime, timeRemaining, targetDate]);
-  console.log(timeRemaining);
   return (
     <Containter>
       <RowContainer>
