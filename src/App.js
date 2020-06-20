@@ -4,8 +4,9 @@ import Clock from "react-clock";
 import styled from "styled-components";
 // import { makeStyles } from "@material-ui/styles";
 // import Button from '@material-ui/core/Button';
-import DateFnsUtils from "@date-io/date-fns";
-import { MuiPickersUtilsProvider, DateTimePicker } from "@material-ui/pickers";
+import DateFnsUtils from "@material-ui/pickers/adapter/date-fns";
+import { LocalizationProvider, DateTimePicker } from "@material-ui/pickers";
+import TextField from "@material-ui/core/TextField";
 import moment from "moment";
 
 // const useStyles = makeStyles({
@@ -35,9 +36,7 @@ const NumberFlip = ({ number }) => (
 const App = () => {
   const [date, setDate] = useState(new Date());
   const [targetDate, handleDateChange] = useState(
-    moment(moment())
-      .add(30, "m")
-      .toDate()
+    moment(moment()).add(30, "m").toDate()
   );
   const intervalTime = 1000;
   const now = () => Date.now();
@@ -46,7 +45,7 @@ const App = () => {
     () => new Date(targetDate) - new Date(now())
   );
 
-  const [seconds, setSecounds] = useState(
+  const [seconds, setSeconds] = useState(
     Math.floor((timeRemaining / 1000) % 60)
   );
 
@@ -75,7 +74,7 @@ const App = () => {
       setDate(new Date());
     }, intervalTime);
 
-    setSecounds(Math.floor((timeRemaining / 1000) % 60));
+    setSeconds(Math.floor((timeRemaining / 1000) % 60));
     setMinutes(Math.floor((timeRemaining / 1000 / 60) % 60));
     setHours(Math.floor((timeRemaining / (1000 * 60 * 60)) % 24));
     setDays(Math.floor(timeRemaining / (1000 * 60 * 60 * 24)));
@@ -83,7 +82,7 @@ const App = () => {
     return () => clearInterval(interval);
   }, [intervalTime, timeRemaining, targetDate]);
   return (
-    <Containter>
+    <Container>
       <RowContainer>
         <NumberFlip number={days.toString()} />
         <Separator>DAYS</Separator>
@@ -97,18 +96,22 @@ const App = () => {
       <RowContainer>
         <Clock value={date} size={250} />
         <DatePicker>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <DateTimePicker value={targetDate} onChange={handleDateChange} />
-          </MuiPickersUtilsProvider>
+          <LocalizationProvider dateAdapter={DateFnsUtils}>
+            <DateTimePicker
+              renderInput={(props) => <TextField {...props} />}
+              value={targetDate}
+              onChange={handleDateChange}
+            />
+          </LocalizationProvider>
         </DatePicker>
       </RowContainer>
-    </Containter>
+    </Container>
   );
 };
 
 export default App;
 
-const Containter = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-items: center;
