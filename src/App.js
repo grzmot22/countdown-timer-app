@@ -4,7 +4,7 @@ import Clock from "react-clock";
 import styled from "styled-components";
 // import { makeStyles } from "@material-ui/styles";
 // import Button from '@material-ui/core/Button';
-import DateFnsUtils from "@material-ui/pickers/adapter/date-fns";
+import DateFnsUtils from "@material-ui/pickers/adapter/moment";
 import { LocalizationProvider, DateTimePicker } from "@material-ui/pickers";
 import TextField from "@material-ui/core/TextField";
 import moment from "moment";
